@@ -1,15 +1,11 @@
 package parkinglot
 
-import io.mockk.confirmVerified
-import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertFailsWith
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 
 class ParkingLotTest {
     @Test
@@ -71,8 +67,8 @@ class ParkingLotTest {
 
     @Test
     fun `should notify observer when lot is full`() {
-        val testObserver =  mockk<INotifiable>(relaxed = true)
-        val lot = ParkingLot(capacity = 1, testObserver)
+        val testObserver = mockk<INotifiable>(relaxed = true)
+        val lot = ParkingLot(capacity = 1, mutableSetOf(testObserver))
         val car = car()
 
         lot.park(car)
@@ -83,7 +79,7 @@ class ParkingLotTest {
     @Test
     fun `should not notify full for observer when lot is free`() {
         val testObserver = mockk<INotifiable>(relaxed = true)
-        val lot = ParkingLot(capacity = 2, testObserver)
+        val lot = ParkingLot(capacity = 2, mutableSetOf(testObserver))
         val car = car()
 
         lot.park(car)
@@ -94,12 +90,41 @@ class ParkingLotTest {
     @Test
     fun `should notify free for observer when full lot has free space`() {
         val testObserver = mockk<INotifiable>(relaxed = true)
-        val lot = ParkingLot(capacity = 1, testObserver)
+        val lot = ParkingLot(capacity = 1, mutableSetOf(testObserver))
         val car = car()
         lot.park(car)
         lot.unPark(car)
 
         verify(exactly = 1) { testObserver.notifyFree() }
+    }
+
+    @Test
+    fun `should notify multiple observers when lot is full`() {
+        val observer = mockk<INotifiable>(relaxed = true)
+        val anotherObserver = mockk<INotifiable>(relaxed = true)
+        val observers = mutableSetOf(observer, anotherObserver)
+        val lot = ParkingLot(capacity = 1, observers)
+        val car = car()
+
+        lot.park(car)
+
+        verify(exactly = 1) { observer.notifyFull() }
+        verify(exactly = 1) { anotherObserver.notifyFull() }
+    }
+
+    @Test
+    fun `should notify multiple observers when full lot has space`() {
+        val observer = mockk<INotifiable>(relaxed = true)
+        val anotherObserver = mockk<INotifiable>(relaxed = true)
+        val observers = mutableSetOf(observer, anotherObserver)
+        val lot = ParkingLot(capacity = 1, observers)
+        val car = car()
+        lot.park(car)
+
+        lot.unPark(car)
+
+        verify(exactly = 1) { observer.notifyFree() }
+        verify(exactly = 1) { anotherObserver.notifyFree() }
     }
 
     private fun car(): IParkable {

@@ -3,13 +3,8 @@ package parkinglot
 import java.lang.IllegalArgumentException
 
 
-class ParkingLot(private val capacity: Int) {
-    private var notifiable: INotifiable? = null
+class ParkingLot(private val capacity: Int, private val notifiables: MutableSet<INotifiable> = mutableSetOf()) {
     private val slots: MutableList<Any> = ArrayList()
-
-    constructor(capacity: Int, notifiable: INotifiable) : this(capacity) {
-        this.notifiable = notifiable
-    }
 
     init {
         if (capacity < 0) {
@@ -30,14 +25,14 @@ class ParkingLot(private val capacity: Int) {
 
     private fun notifyFull() {
         if (isFull()) {
-            notifiable?.notifyFull()
+            notifiables.forEach { it.notifyFull() }
         }
     }
 
     fun unPark(vehicle: IParkable) {
         if (isParked(vehicle).not()) throw NotParkedException()
-        if(isFull()){
-            notifiable?.notifyFree()
+        if (isFull()) {
+            notifiables.forEach { it.notifyFree() }
         }
         slots.remove(vehicle)
     }
