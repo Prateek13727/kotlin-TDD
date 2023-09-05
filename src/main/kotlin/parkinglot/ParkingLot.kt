@@ -25,14 +25,14 @@ class ParkingLot(private val capacity: Int, private val notifiables: MutableSet<
 
     private fun notifyFull() {
         if (isFull()) {
-            notifiables.forEach { it.notifyFull() }
+            notifiables.forEach { it.notifyFull(this) }
         }
     }
 
     fun unPark(vehicle: IParkable) {
         if (isParked(vehicle).not()) throw NotParkedException()
         if (isFull()) {
-            notifiables.forEach { it.notifyFree() }
+            notifiables.forEach { it.notifyFree(this) }
         }
         slots.remove(vehicle)
     }
@@ -40,5 +40,11 @@ class ParkingLot(private val capacity: Int, private val notifiables: MutableSet<
     fun isFull(): Boolean = slots.size == capacity
 
     private fun isParked(vehicle: IParkable): Boolean = slots.contains(vehicle)
+    fun addNotifiable(notifiable: INotifiable) {
+        notifiables.add(notifiable)
+        if(this.capacity == 0){
+            notifyFull()
+        }
+    }
 
 }

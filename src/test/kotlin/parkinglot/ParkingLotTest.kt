@@ -73,7 +73,7 @@ class ParkingLotTest {
 
         lot.park(car)
 
-        verify(exactly = 1) { testObserver.notifyFull() }
+        verify(exactly = 1) { testObserver.notifyFull(lot) }
     }
 
     @Test
@@ -84,7 +84,7 @@ class ParkingLotTest {
 
         lot.park(car)
 
-        verify(exactly = 0) { testObserver.notifyFull() }
+        verify(exactly = 0) { testObserver.notifyFull(lot) }
     }
 
     @Test
@@ -95,7 +95,7 @@ class ParkingLotTest {
         lot.park(car)
         lot.unPark(car)
 
-        verify(exactly = 1) { testObserver.notifyFree() }
+        verify(exactly = 1) { testObserver.notifyFree(lot) }
     }
 
     @Test
@@ -108,8 +108,8 @@ class ParkingLotTest {
 
         lot.park(car)
 
-        verify(exactly = 1) { observer.notifyFull() }
-        verify(exactly = 1) { anotherObserver.notifyFull() }
+        verify(exactly = 1) { observer.notifyFull(lot) }
+        verify(exactly = 1) { anotherObserver.notifyFull(lot) }
     }
 
     @Test
@@ -123,8 +123,8 @@ class ParkingLotTest {
 
         lot.unPark(car)
 
-        verify(exactly = 1) { observer.notifyFree() }
-        verify(exactly = 1) { anotherObserver.notifyFree() }
+        verify(exactly = 1) { observer.notifyFree(lot) }
+        verify(exactly = 1) { anotherObserver.notifyFree(lot) }
     }
 
     private fun car(): IParkable {
