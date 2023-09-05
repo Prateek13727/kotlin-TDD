@@ -14,25 +14,7 @@ class Attendant(
     }
 
     fun park(vehicle: IParkable) {
-        if (parkingRule == ParkingRule.MOST_FREE_SPACE) {
-            var champion = availableLots[0]
-            availableLots
-                .asSequence()
-                .filter { it.hasLeastNumberOfVehicles(champion) }
-                .forEach { champion = it }
-            champion.park(vehicle)
-            return
-        }
-        if (parkingRule == ParkingRule.MOST_CAPACITY) {
-            var champion = availableLots[0]
-            availableLots
-                .asSequence()
-                .filter { it.hasMoreCapacity(champion) }
-                .forEach { champion = it }
-            champion.park(vehicle)
-            return
-        }
-        val champion = availableLots[0]
+        val champion: ParkingLot = parkingRule.park(availableLots)
         champion.park(vehicle)
     }
 
