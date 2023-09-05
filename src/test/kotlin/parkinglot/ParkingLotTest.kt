@@ -1,5 +1,9 @@
 package parkinglot
 
+import io.mockk.confirmVerified
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
@@ -66,60 +70,40 @@ class ParkingLotTest {
     }
 
     @Test
-    fun `should notify owner when lot is full`() {
-        val testOwner = TestOwner()
-        val lot = ParkingLot(capacity = 1,testOwner)
+    fun `should notify observer when lot is full`() {
+        val testObserver =  mockk<INotifiable>(relaxed = true)
+        val lot = ParkingLot(capacity = 1, testObserver)
         val car = car()
 
         lot.park(car)
 
-        assertTrue(testOwner.isNotifiedFull())
+        verify(exactly = 1) { testObserver.notifyFull() }
     }
 
     @Test
-    fun `should not notify full for owner when lot is free`() {
-        val testOwner = TestOwner()
-        val lot = ParkingLot(capacity = 2,testOwner)
+    fun `should not notify full for observer when lot is free`() {
+        val testObserver = mockk<INotifiable>(relaxed = true)
+        val lot = ParkingLot(capacity = 2, testObserver)
         val car = car()
 
         lot.park(car)
 
-        assertFalse(testOwner.isNotifiedFull())
+        verify(exactly = 0) { testObserver.notifyFull() }
     }
 
     @Test
-    fun `should notify free for owner when full lot has free space`() {
-        val testOwner = TestOwner()
-        val lot = ParkingLot(capacity = 1,testOwner)
+    fun `should notify free for observer when full lot has free space`() {
+        val testObserver = mockk<INotifiable>(relaxed = true)
+        val lot = ParkingLot(capacity = 1, testObserver)
         val car = car()
         lot.park(car)
         lot.unPark(car)
 
-        assertTrue(testOwner.isNotifiedFree())
+        verify(exactly = 1) { testObserver.notifyFree() }
     }
 
     private fun car(): IParkable {
         return object : IParkable {}
-    }
-}
-
-class TestOwner : INotifiable {
-    private var notfiedFree: Boolean = false
-    private var notifiedFull: Boolean = false
-    override fun notifyFull()  {
-        notifiedFull = true;
-    }
-
-    override fun notifyFree() {
-        notfiedFree = true
-    }
-
-    fun isNotifiedFull(): Boolean {
-        return notifiedFull
-    }
-
-    fun isNotifiedFree(): Boolean {
-        return notfiedFree;
     }
 }
 
