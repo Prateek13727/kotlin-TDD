@@ -16,7 +16,10 @@ class Attendant(
     }
 
     fun park(vehicle: IParkable) {
-        val champion: ParkingLot = parkingRule.park(availableLots)
+        if (availableLots.size == 0) {
+            throw LotFullException()
+        }
+        val champion: ParkingLot = parkingRule.find(availableLots)
         champion.park(vehicle)
     }
 

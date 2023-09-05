@@ -4,7 +4,7 @@ import parkinglot.IParkingRule
 import parkinglot.ParkingLot
 
 class FirstAvailableRule : IParkingRule {
-    override fun park(parkingLots: MutableList<ParkingLot>): ParkingLot {
+    override fun find(parkingLots: MutableList<ParkingLot>): ParkingLot {
         return parkingLots[0]
     }
 }

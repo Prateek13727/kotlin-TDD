@@ -4,7 +4,7 @@ import parkinglot.IParkingRule
 import parkinglot.ParkingLot
 
 class MostFreeSpaceRule : IParkingRule {
-    override fun park(parkingLots: MutableList<ParkingLot>): ParkingLot {
+    override fun find(parkingLots: MutableList<ParkingLot>): ParkingLot {
         var champion = parkingLots[0]
         parkingLots
             .asSequence()

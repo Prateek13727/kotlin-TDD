@@ -1,7 +1,10 @@
 package parkinglot
 
+import io.mockk.mockk
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
+import org.junit.jupiter.api.assertThrows
+import parkinglot.parkingrule.FirstAvailableRule
 import parkinglot.parkingrule.MostCapacityRule
 import parkinglot.parkingrule.MostFreeSpaceRule
 import kotlin.test.assertTrue
@@ -44,6 +47,19 @@ class AttendantTest {
         attendant.park(anotherCar)
 
         assertTrue(anotherLot.isVehicleParked(anotherCar))
+    }
+
+    @Test
+    internal fun `throw lot full exception for park in lot full`() {
+        val lot = ParkingLot(0)
+        val anotherLot = ParkingLot(1)
+        val lots = mutableSetOf(lot, anotherLot)
+        val attendant = Attendant(lots, FirstAvailableRule())
+        val car = object : IParkable {}
+        val anotherCar = object : IParkable {}
+        attendant.park(car)
+
+        assertThrows<LotFullException> { attendant.park(anotherCar) }
     }
 
 }
