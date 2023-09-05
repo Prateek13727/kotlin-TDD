@@ -36,6 +36,9 @@ class ParkingLot(private val capacity: Int) {
 
     fun unPark(vehicle: IParkable) {
         if (isParked(vehicle).not()) throw NotParkedException()
+        if(isFull()){
+            notifiable?.notifyFree()
+        }
         slots.remove(vehicle)
     }
 
