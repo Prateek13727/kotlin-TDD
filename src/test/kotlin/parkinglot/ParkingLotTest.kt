@@ -46,6 +46,23 @@ class ParkingLotTest {
         assertFailsWith<IllegalArgumentException> { ParkingLot(capacity = -1) }
     }
 
+    @Test
+    fun `should unPark`() {
+        val lot = ParkingLot(capacity = 1)
+        val car = car()
+        lot.park(car)
+
+        assertDoesNotThrow { lot.unPark(car) }
+    }
+
+    @Test
+    fun `should throw NotParkedException when vehicle is not parked`() {
+        val lot = ParkingLot(capacity = 1)
+        val car = car()
+
+        assertFailsWith<NotParkedException> { lot.unPark(car) }
+    }
+
     private fun car(): IParkable {
         return object : IParkable {}
     }

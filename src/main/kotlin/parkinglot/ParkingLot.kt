@@ -22,6 +22,11 @@ class ParkingLot(private val capacity: Int) {
         slots.add(vehicle)
     }
 
+    fun unPark(vehicle: IParkable) {
+        if (isParked(vehicle).not()) throw NotParkedException()
+        slots.remove(vehicle)
+    }
+
     private fun isFull(): Boolean = slots.size == capacity
 
     private fun isParked(vehicle: IParkable): Boolean = slots.contains(vehicle)
