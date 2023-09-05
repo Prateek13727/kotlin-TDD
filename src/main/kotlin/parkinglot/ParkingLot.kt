@@ -4,7 +4,12 @@ import java.lang.IllegalArgumentException
 
 
 class ParkingLot(private val capacity: Int) {
+    private var notifiable: INotifiable? = null
     private val slots: MutableList<Any> = ArrayList()
+
+    constructor(capacity: Int, notifiable: INotifiable) : this(capacity) {
+        this.notifiable = notifiable
+    }
 
     init {
         if (capacity < 0) {
@@ -20,6 +25,13 @@ class ParkingLot(private val capacity: Int) {
             throw LotFullException()
         }
         slots.add(vehicle)
+        notifyFull()
+    }
+
+    private fun notifyFull() {
+        if (isFull()) {
+            notifiable?.notifyFull()
+        }
     }
 
     fun unPark(vehicle: IParkable) {
