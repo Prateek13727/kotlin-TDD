@@ -25,9 +25,19 @@ class ParkingLotTest {
     internal fun `should throw lot full exception for park when space is full`() {
         val lot = ParkingLot(capacity = 1)
         val car = car()
+        val anotherCar = car()
         lot.park(car)
 
-        assertThrows<LotFullException> { lot.park(car) }
+        assertThrows<LotFullException> { lot.park(anotherCar) }
+    }
+
+    @Test
+    internal fun `should throw already parked exception for already parked vehicle`() {
+        val lot = ParkingLot(capacity = 2)
+        val car = car()
+        lot.park(car)
+
+        assertThrows<AlreadyParkedException> { lot.park(car) }
     }
 
     private fun car(): Any {
