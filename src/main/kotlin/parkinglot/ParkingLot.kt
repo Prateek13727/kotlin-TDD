@@ -37,7 +37,7 @@ class ParkingLot(private val capacity: Int, private val notifiables: MutableSet<
         slots.remove(vehicle)
     }
 
-    private fun isFull(): Boolean = slots.size == capacity
+    fun isFull(): Boolean = slots.size == capacity
 
     private fun isParked(vehicle: IParkable): Boolean = slots.contains(vehicle)
 
