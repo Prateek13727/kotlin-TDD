@@ -48,8 +48,14 @@ class ParkingLot(private val capacity: Int, private val notifiables: MutableSet<
     }
 
     fun isVehicleParked(parkable: Any) = slots.contains(parkable)
-    fun hasMoreCapacity(anotherlot: ParkingLot): Boolean {
-        return this.capacity > anotherlot.capacity
+    fun hasMoreCapacity(anotherLot: ParkingLot): Boolean {
+        return this.capacity > anotherLot.capacity
     }
+
+    fun hasLeastNumberOfVehicles(anotherLot: ParkingLot): Boolean {
+        return hasMoreFreeSpace() > anotherLot.hasMoreFreeSpace()
+    }
+
+    private fun hasMoreFreeSpace() = capacity - slots.size
 
 }

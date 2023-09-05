@@ -30,4 +30,19 @@ class AttendantTest {
         assertTrue(anotherLot.isVehicleParked(car))
     }
 
+    @Test
+    internal fun `park in least parked vehicles lot`() {
+        val lot = ParkingLot(2)
+        val anotherLot = ParkingLot(2)
+        val lots = mutableSetOf(lot, anotherLot)
+        val attendant = Attendant(lots, ParkingRule.MOST_FREE_SPACE)
+        val car = object : IParkable {}
+        val anotherCar = object : IParkable {}
+        attendant.park(car)
+
+        attendant.park(anotherCar)
+
+        assertTrue(anotherLot.isVehicleParked(anotherCar))
+    }
+
 }
