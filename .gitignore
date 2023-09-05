@@ -1,0 +1,39 @@
+# Kotlin
+.idea/
+build/
+out/
+*.iml
+
+# Gradle
+.gradle/
+build/
+
+# Compiled class file
+*.class
+
+# Compiled Kotlin files
+*.kotlin_builtins
+
+# Compiled Java files
+*.class
+
+# Log files
+*.log
+
+# IntelliJ IDEA project files
+.idea/
+
+# Eclipse project files
+.settings/
+.classpath
+.project
+
+# Dependency directories
+/bin/
+/target/
+/.gradle/
+/.idea/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
