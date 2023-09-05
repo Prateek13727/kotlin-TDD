@@ -42,9 +42,14 @@ class ParkingLot(private val capacity: Int, private val notifiables: MutableSet<
     private fun isParked(vehicle: IParkable): Boolean = slots.contains(vehicle)
     fun addNotifiable(notifiable: INotifiable) {
         notifiables.add(notifiable)
-        if(this.capacity == 0){
+        if (this.capacity == 0) {
             notifyFull()
         }
+    }
+
+    fun isVehicleParked(parkable: Any) = slots.contains(parkable)
+    fun hasMoreCapacity(anotherlot: ParkingLot): Boolean {
+        return this.capacity > anotherlot.capacity
     }
 
 }

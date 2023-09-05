@@ -1,6 +1,9 @@
 package parkinglot
 
-class Attendant(private val lots: MutableSet<ParkingLot>) : INotifiable {
+class Attendant(
+    private val lots: MutableSet<ParkingLot>,
+    private val parkingRule: ParkingRule = ParkingRule.FIRST_AVAILABLE_LOT
+) : INotifiable {
     private var availableLots: MutableList<ParkingLot> = mutableListOf()
 
     init {
@@ -11,11 +14,17 @@ class Attendant(private val lots: MutableSet<ParkingLot>) : INotifiable {
     }
 
     fun park(vehicle: IParkable) {
-        availableLots.forEach {
-            it.park(vehicle)
+        if (parkingRule == ParkingRule.MOST_CAPACITY) {
+            var champion = availableLots[0]
+            availableLots
+                .asSequence()
+                .filter { it.hasMoreCapacity(champion) }
+                .forEach { champion = it }
+            champion.park(vehicle)
             return
         }
-        throw LotFullException()
+        val champion = availableLots[0]
+        champion.park(vehicle)
     }
 
     override fun notifyFull(lot: ParkingLot) {
