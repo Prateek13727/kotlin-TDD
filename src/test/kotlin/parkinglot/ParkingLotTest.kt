@@ -3,6 +3,7 @@ package parkinglot
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
+import kotlin.test.assertFailsWith
 
 class ParkingLotTest {
     @Test
@@ -40,7 +41,12 @@ class ParkingLotTest {
         assertThrows<AlreadyParkedException> { lot.park(car) }
     }
 
-    private fun car(): Any {
-        return Any()
+    @Test
+    fun `should not allow a parking lot creation with negative capacity`() {
+        assertFailsWith<IllegalArgumentException> { ParkingLot(capacity = -1) }
+    }
+
+    private fun car(): IParkable {
+        return object : IParkable {}
     }
 }

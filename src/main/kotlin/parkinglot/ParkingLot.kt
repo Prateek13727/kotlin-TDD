@@ -1,10 +1,18 @@
 package parkinglot
 
+import java.lang.IllegalArgumentException
+
 
 class ParkingLot(private val capacity: Int) {
     private val slots: MutableList<Any> = ArrayList()
 
-    fun park(vehicle: Any) {
+    init {
+        if (capacity < 0) {
+            throw IllegalArgumentException("Capacity cannot be negative")
+        }
+    }
+
+    fun park(vehicle: IParkable) {
         if (isParked(vehicle)) {
             throw AlreadyParkedException()
         }
@@ -16,6 +24,6 @@ class ParkingLot(private val capacity: Int) {
 
     private fun isFull(): Boolean = slots.size == capacity
 
-    private fun isParked(vehicle: Any): Boolean = slots.contains(vehicle)
+    private fun isParked(vehicle: IParkable): Boolean = slots.contains(vehicle)
 
 }
