@@ -1,8 +1,10 @@
 package parkinglot
 
+import parkinglot.parkingrule.FirstAvailableRule
+
 class Attendant(
     private val lots: MutableSet<ParkingLot>,
-    private val parkingRule: ParkingRule = ParkingRule.FIRST_AVAILABLE_LOT
+    private val parkingRule: IParkingRule = FirstAvailableRule()
 ) : INotifiable {
     private var availableLots: MutableList<ParkingLot> = mutableListOf()
 

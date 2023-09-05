@@ -2,6 +2,8 @@ package parkinglot
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
+import parkinglot.parkingrule.MostCapacityRule
+import parkinglot.parkingrule.MostFreeSpaceRule
 import kotlin.test.assertTrue
 
 class AttendantTest {
@@ -22,7 +24,7 @@ class AttendantTest {
         val lot = ParkingLot(1)
         val anotherLot = ParkingLot(2)
         val lots = mutableSetOf(lot, anotherLot)
-        val attendant = Attendant(lots, ParkingRule.MOST_CAPACITY)
+        val attendant = Attendant(lots, MostCapacityRule())
         val car = object : IParkable {}
         attendant.park(car)
 
@@ -34,7 +36,7 @@ class AttendantTest {
         val lot = ParkingLot(2)
         val anotherLot = ParkingLot(2)
         val lots = mutableSetOf(lot, anotherLot)
-        val attendant = Attendant(lots, ParkingRule.MOST_FREE_SPACE)
+        val attendant = Attendant(lots, MostFreeSpaceRule())
         val car = object : IParkable {}
         val anotherCar = object : IParkable {}
         attendant.park(car)
