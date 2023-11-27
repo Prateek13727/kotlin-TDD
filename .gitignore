@@ -1,15 +1,40 @@
-.gradle
-**/build/
-!src/**/build/
+# Kotlin
+.idea/
+build/
+out/
+*.iml
 
-# Ignore Gradle GUI config
-gradle-app.setting
+# Gradle
+.gradle/
+build/
 
-# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
-!gradle-wrapper.jar
+# Compiled class file
+*.class
 
-# Avoid ignore Gradle wrappper properties
-!gradle-wrapper.properties
+# Compiled Kotlin files
+*.kotlin_builtins
 
-# Cache of project
-.gradletasknamecache
+# Compiled Java files
+*.class
+
+# Log files
+*.log
+
+# IntelliJ IDEA project files
+.idea/
+
+# Eclipse project files
+.settings/
+.classpath
+.project
+
+# Dependency directories
+/gradle
+/bin/
+/target/
+/.gradle/
+/.idea/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
