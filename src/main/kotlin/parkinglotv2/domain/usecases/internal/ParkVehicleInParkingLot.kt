@@ -10,6 +10,7 @@ import parkinglotv2.domain.usecases.LotFullException
 class ParkVehicleInParkingLot(
   private val parkingLotRepo: ParkingLotRepo
 ) {
+
   suspend fun invoke(parkingLot: ParkingLot, vehicle: Vehicle) {
     if (isParked(parkingLot, vehicle)) throw AlreadyParkedException()
 
