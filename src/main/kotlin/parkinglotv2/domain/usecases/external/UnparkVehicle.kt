@@ -17,15 +17,19 @@ class UnparkVehicle(
     val vehicle = vehicleRepo.getVehicle(vehicleId) ?: return
 
     val parkedSlot = getParkedSlot(parkingLot, vehicle)
-    val updatedParkingLot = removeVehicleFromSlot(parkingLot, parkedSlot)
-    parkingLotRepo.updateParkingLot(updatedParkingLot)
+    removeVehicleFromSlot(parkingLot, parkedSlot)
   }
 
   private fun getParkedSlot(parkingLot: ParkingLot, vehicle: Vehicle) =
     parkingLot.slots.find { it.vehicle?.id == vehicle.id }
       ?: throw NotParkedException()
 
-  private fun removeVehicleFromSlot(parkingLot: ParkingLot, parkedSlot: Slot): ParkingLot {
+  private suspend fun removeVehicleFromSlot(parkingLot: ParkingLot, parkedSlot: Slot) {
+    val updatedParkingSlot = getUpdatedParkingLot(parkedSlot, parkingLot)
+    parkingLotRepo.updateParkingLot(updatedParkingSlot)
+  }
+
+  private fun getUpdatedParkingLot(parkedSlot: Slot, parkingLot: ParkingLot): ParkingLot {
     val updatedSlot = parkedSlot.copy(vehicle = null)
     val updatedSlots =
       parkingLot.slots.map { if (it.id == updatedSlot.id) updatedSlot else it }

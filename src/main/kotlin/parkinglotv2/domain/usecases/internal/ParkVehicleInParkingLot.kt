@@ -14,8 +14,7 @@ class ParkVehicleInParkingLot(
     if (isParked(parkingLot, vehicle)) throw AlreadyParkedException()
 
     val emptySlot = getEmptySlot(parkingLot)
-    val updatedParkingLot = assignVehicleToSlot(parkingLot, emptySlot, vehicle)
-    parkingLotRepo.updateParkingLot(updatedParkingLot)
+    assignVehicleToSlot(parkingLot, emptySlot, vehicle)
   }
 
   private fun isParked(parkingLot: ParkingLot, vehicle: Vehicle): Boolean =
@@ -28,7 +27,12 @@ class ParkVehicleInParkingLot(
     parkingLot.slots.find { it.vehicle == null }
       ?: throw LotFullException()
 
-  private fun assignVehicleToSlot(parkingLot: ParkingLot, emptySlot: Slot, vehicle: Vehicle): ParkingLot {
+  private suspend fun assignVehicleToSlot(parkingLot: ParkingLot, emptySlot: Slot, vehicle: Vehicle) {
+    val updatedParkingLot = getUpdatedParkingLot(emptySlot, vehicle, parkingLot)
+    parkingLotRepo.updateParkingLot(updatedParkingLot)
+  }
+
+  private fun getUpdatedParkingLot(emptySlot: Slot, vehicle: Vehicle, parkingLot: ParkingLot): ParkingLot {
     val updatedSlot = emptySlot.copy(vehicle = vehicle)
     val updatedSlots =
       parkingLot.slots
