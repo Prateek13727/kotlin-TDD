@@ -39,8 +39,8 @@ class ParkingLotTest {
         invoking { parkingLot.park(car) } shouldThrow AlreadyParkedException::class withMessage "vehicle already parked"
     }
 
-    private fun car(): Any {
-        return Any()
+    private fun car(): Vehicle {
+        return object : Vehicle {}
     }
 
 }

@@ -1,9 +1,9 @@
 package parkinglot
 
 class ParkingLot(private val capacity: Int) {
-    private val vehicles: ArrayList<Any> = ArrayList()
+    private val vehicles: ArrayList<Vehicle> = ArrayList()
 
-    fun park(vehicle: Any) {
+    fun park(vehicle: Vehicle) {
         if (isParked(vehicle)) {
             throw AlreadyParkedException("vehicle already parked")
         }
