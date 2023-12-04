@@ -1,10 +1,13 @@
 package parkinglot
 
-class ParkingLot(val capacity: Int) {
+class ParkingLot(private val capacity: Int) {
+    private val vehicles: ArrayList<Any> = ArrayList()
+
     fun park(vehicle: Any) {
-        if (capacity == 0) {
+        if (vehicles.size == capacity) {
             throw LotFullException("lot is full")
         }
+        vehicles.add(vehicle)
         return
     }
 

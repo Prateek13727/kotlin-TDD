@@ -20,6 +20,14 @@ class ParkingLotTest {
         invoking { parkingLot.park(car) } shouldThrow LotFullException::class withMessage "lot is full"
     }
 
+    @Test
+    internal fun `should not park car when lot is full`() {
+        val parkingLot = ParkingLot(0)
+        val car = car()
+
+        invoking { parkingLot.park(car) } shouldThrow LotFullException::class withMessage "lot is full"
+    }
+
     private fun car(): Any {
         return Any()
     }
