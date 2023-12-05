@@ -19,6 +19,9 @@ class ParkingLot(private val capacity: Int) {
     private fun isParked(vehicle: Any) = vehicles.contains(vehicle)
 
     fun unPark(vehicle: Vehicle) {
+        if(!vehicles.contains(vehicle)){
+            throw NotParkedException("vehicle is not parked")
+        }
         return
     }
 
