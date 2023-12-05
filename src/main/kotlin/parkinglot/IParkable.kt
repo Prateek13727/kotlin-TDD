@@ -1,3 +1,0 @@
-package parkinglot
-
-interface IParkable
