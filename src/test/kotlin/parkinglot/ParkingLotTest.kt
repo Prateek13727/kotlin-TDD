@@ -94,7 +94,7 @@ class ParkingLotTest {
     @Test
     fun `should notify owner when lot is full`() {
         val testOwner = mock<Notifiable>()
-        val lot = ParkingLot(capacity = 1, notifiable = testOwner)
+        val lot = ParkingLot(capacity = 1, notifiables = mutableSetOf(testOwner))
         val car = car()
 
         lot.park(car)
@@ -105,7 +105,7 @@ class ParkingLotTest {
     @Test
     fun `should not notify full for owner when lot is free`() {
         val testOwner = mock<Notifiable>()
-        val lot = ParkingLot(capacity = 2, notifiable = testOwner)
+        val lot = ParkingLot(capacity = 2, notifiables = mutableSetOf(testOwner))
         val car = car()
 
         lot.park(car)
@@ -116,12 +116,41 @@ class ParkingLotTest {
     @Test
     fun `should notify free for owner when full lot has free space`() {
         val testOwner = mock<Notifiable>()
-        val lot = ParkingLot(capacity = 1, notifiable = testOwner)
+        val lot = ParkingLot(capacity = 1, notifiables = mutableSetOf(testOwner))
         val car = car()
         lot.park(car)
         lot.unPark(car)
 
         verify(testOwner, times(1)).notifyFree()
+    }
+
+    @Test
+    fun `should notify multiple observers when lot is full`() {
+        val observer :Notifiable= mock()
+        val anotherObserver:Notifiable = mock()
+        val observers = mutableSetOf(observer, anotherObserver)
+        val lot = ParkingLot(capacity = 1, notifiables = observers)
+        val car = car()
+
+        lot.park(car)
+
+        verify(observer, times(1)).notifyFull()
+        verify(anotherObserver, times(1)).notifyFull()
+    }
+
+    @Test
+    fun `should notify multiple observers when full lot has space`() {
+        val observer :Notifiable= mock()
+        val anotherObserver:Notifiable = mock()
+        val observers = mutableSetOf(observer, anotherObserver)
+        val lot = ParkingLot(capacity = 1, notifiables = observers)
+        val car = car()
+        lot.park(car)
+
+        lot.unPark(car)
+
+        verify(observer, times(1)).notifyFree()
+        verify(anotherObserver, times(1)).notifyFree()
     }
 
     private fun car(): Vehicle {

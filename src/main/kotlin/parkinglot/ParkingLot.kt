@@ -1,11 +1,6 @@
 package parkinglot
 
-class ParkingLot(private val capacity: Int) {
-    constructor(capacity: Int, notifiable: Notifiable) : this(capacity) {
-        this.notifiable = notifiable
-    }
-
-    private var notifiable: Notifiable? = null
+class ParkingLot(private val capacity: Int,private val notifiables: MutableSet<Notifiable> = mutableSetOf()) {
     private val vehicles: ArrayList<Vehicle> = ArrayList()
 
     fun park(vehicle: Vehicle) {
@@ -22,7 +17,7 @@ class ParkingLot(private val capacity: Int) {
 
     private fun notifyLotFull() {
         if (isFull()) {
-            this.notifiable?.notifyFull()
+            notifiables.forEach { it.notifyFull() }
         }
     }
 
@@ -31,7 +26,7 @@ class ParkingLot(private val capacity: Int) {
     fun isParked(vehicle: Any) = vehicles.contains(vehicle)
 
     fun unPark(vehicle: Vehicle) {
-        if (!vehicles.contains(vehicle)) {
+        if (vehicles.contains(vehicle).not()) {
             throw NotParkedException("vehicle is not parked")
         }
         vehicles.remove(vehicle)
@@ -41,7 +36,7 @@ class ParkingLot(private val capacity: Int) {
 
     private fun notifyLotFree() {
         if (vehicles.size == capacity - 1) {
-            notifiable?.notifyFree()
+            notifiables.forEach { it.notifyFree() }
         }
     }
 
