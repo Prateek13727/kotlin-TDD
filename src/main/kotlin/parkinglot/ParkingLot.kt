@@ -21,7 +21,7 @@ class ParkingLot(private val capacity: Int,private val notifiables: MutableSet<N
         }
     }
 
-    private fun isFull() = vehicles.size == capacity
+    fun isFull() = vehicles.size == capacity
 
     fun isParked(vehicle: Any) = vehicles.contains(vehicle)
 
