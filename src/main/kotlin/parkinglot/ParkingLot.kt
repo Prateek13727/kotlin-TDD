@@ -18,4 +18,8 @@ class ParkingLot(private val capacity: Int) {
 
     private fun isParked(vehicle: Any) = vehicles.contains(vehicle)
 
+    fun unPark(vehicle: Vehicle) {
+        return
+    }
+
 }
