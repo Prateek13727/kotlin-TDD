@@ -2,6 +2,10 @@ package parkinglot
 
 import org.amshove.kluent.*
 import org.junit.jupiter.api.Test
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.never
+import org.mockito.kotlin.times
+import org.mockito.kotlin.verify
 
 class ParkingLotTest {
     @Test
@@ -89,60 +93,39 @@ class ParkingLotTest {
 
     @Test
     fun `should notify owner when lot is full`() {
-        val testOwner = TestOwner()
-        val lot = ParkingLot(capacity = 1, testOwner)
+        val testOwner = mock<Notifiable>()
+        val lot = ParkingLot(capacity = 1, notifiable = testOwner)
         val car = car()
 
         lot.park(car)
 
-        testOwner.isNotifiedFull() shouldBeEqualTo true
+        verify(testOwner, times(1)).notifyFull()
     }
 
     @Test
     fun `should not notify full for owner when lot is free`() {
-        val testOwner = TestOwner()
+        val testOwner = mock<Notifiable>()
         val lot = ParkingLot(capacity = 2, notifiable = testOwner)
         val car = car()
 
         lot.park(car)
 
-        testOwner.isNotifiedFull() shouldBeEqualTo false
+        verify(testOwner, never()).notifyFull()
     }
 
     @Test
     fun `should notify free for owner when full lot has free space`() {
-        val testOwner = TestOwner()
-        val lot = ParkingLot(capacity = 1, testOwner)
+        val testOwner = mock<Notifiable>()
+        val lot = ParkingLot(capacity = 1, notifiable = testOwner)
         val car = car()
         lot.park(car)
         lot.unPark(car)
 
-        testOwner.isNotifiedFree() shouldBeEqualTo true
+        verify(testOwner, times(1)).notifyFree()
     }
 
     private fun car(): Vehicle {
         return object : Vehicle {}
-    }
-
-}
-
-class TestOwner : Notifiable {
-    private var notifyFree: Boolean = false
-    private var notifiedFull: Boolean = false
-
-    override fun notifyFull() {
-        notifiedFull = true
-    }
-
-    override fun notifyFree() {
-        notifyFree = true
-    }
-
-    fun isNotifiedFull(): Boolean {
-        return notifiedFull
-    }
-    fun isNotifiedFree(): Boolean {
-        return notifyFree
     }
 
 }
