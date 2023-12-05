@@ -22,6 +22,7 @@ class ParkingLot(private val capacity: Int) {
         if(!vehicles.contains(vehicle)){
             throw NotParkedException("vehicle is not parked")
         }
+        vehicles.remove(vehicle)
         return
     }
 

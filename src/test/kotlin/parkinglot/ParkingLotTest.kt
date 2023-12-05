@@ -56,6 +56,15 @@ class ParkingLotTest {
         invoking { parkingLot.unPark(car) } shouldThrow NotParkedException::class withMessage "vehicle is not parked"
     }
 
+    @Test
+    internal fun `should not un-park vehicle when already un-parked`() {
+        val parkingLot = ParkingLot(1)
+        val car = car()
+        parkingLot.park(car)
+        parkingLot.unPark(car)
+
+        invoking { parkingLot.unPark(car) } shouldThrow NotParkedException::class withMessage "vehicle is not parked"
+    }
     private fun car(): Vehicle {
         return object : Vehicle {}
     }
