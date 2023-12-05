@@ -99,7 +99,7 @@ class ParkingLotTest {
 
         lot.park(car)
 
-        verify(testOwner, times(1)).notifyFull()
+        verify(testOwner, times(1)).notifyFull(lot)
     }
 
     @Test
@@ -110,7 +110,7 @@ class ParkingLotTest {
 
         lot.park(car)
 
-        verify(testOwner, never()).notifyFull()
+        verify(testOwner, never()).notifyFull(lot)
     }
 
     @Test
@@ -121,7 +121,7 @@ class ParkingLotTest {
         lot.park(car)
         lot.unPark(car)
 
-        verify(testOwner, times(1)).notifyFree()
+        verify(testOwner, times(1)).notifyFree(lot)
     }
 
     @Test
@@ -134,8 +134,8 @@ class ParkingLotTest {
 
         lot.park(car)
 
-        verify(observer, times(1)).notifyFull()
-        verify(anotherObserver, times(1)).notifyFull()
+        verify(observer, times(1)).notifyFull(lot)
+        verify(anotherObserver, times(1)).notifyFull(lot)
     }
 
     @Test
@@ -149,8 +149,8 @@ class ParkingLotTest {
 
         lot.unPark(car)
 
-        verify(observer, times(1)).notifyFree()
-        verify(anotherObserver, times(1)).notifyFree()
+        verify(observer, times(1)).notifyFree(lot)
+        verify(anotherObserver, times(1)).notifyFree(lot)
     }
 
     private fun car(): Vehicle {

@@ -1,8 +1,8 @@
 package parkinglot
 
 interface Notifiable {
-    fun notifyFull()
-    fun notifyFree()
+    fun notifyFull(lot: ParkingLot)
+    fun notifyFree(lot: ParkingLot)
 
 
 }
