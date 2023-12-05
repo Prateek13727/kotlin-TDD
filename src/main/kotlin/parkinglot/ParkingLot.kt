@@ -16,11 +16,11 @@ class ParkingLot(private val capacity: Int) {
             throw LotFullException("lot is full")
         }
         vehicles.add(vehicle)
-        notifyForFull()
+        notifyLotFull()
         return
     }
 
-    private fun notifyForFull() {
+    private fun notifyLotFull() {
         if (isFull()) {
             this.notifiable?.notifyFull()
         }
@@ -35,7 +35,14 @@ class ParkingLot(private val capacity: Int) {
             throw NotParkedException("vehicle is not parked")
         }
         vehicles.remove(vehicle)
+        notifyLotFree()
         return
+    }
+
+    private fun notifyLotFree() {
+        if (vehicles.size == capacity - 1) {
+            notifiable?.notifyFree()
+        }
     }
 
 }
