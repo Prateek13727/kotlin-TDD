@@ -86,8 +86,44 @@ class ParkingLotTest {
 
         status shouldBeEqualTo false
     }
+
+    @Test
+    fun `should notify owner when lot is full`() {
+        val testOwner = TestOwner()
+        val lot = ParkingLot(capacity = 1, testOwner)
+        val car = car()
+
+        lot.park(car)
+
+        testOwner.isNotifiedFull() shouldBeEqualTo true
+    }
+
+    @Test
+    fun `should not notify full for owner when lot is free`() {
+        val testOwner = TestOwner()
+        val lot = ParkingLot(capacity = 2, notifiable = testOwner)
+        val car = car()
+
+        lot.park(car)
+
+        testOwner.isNotifiedFull() shouldBeEqualTo false
+    }
+
     private fun car(): Vehicle {
         return object : Vehicle {}
+    }
+
+}
+
+class TestOwner : Notifiable {
+    var notifiedFull: Boolean = false
+
+    override fun notifyFull() {
+        notifiedFull = true
+    }
+
+    fun isNotifiedFull(): Boolean {
+        return notifiedFull
     }
 
 }
