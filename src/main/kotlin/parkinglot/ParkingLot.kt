@@ -16,7 +16,7 @@ class ParkingLot(private val capacity: Int) {
 
     private fun isFull() = vehicles.size == capacity
 
-    private fun isParked(vehicle: Any) = vehicles.contains(vehicle)
+    fun isParked(vehicle: Any) = vehicles.contains(vehicle)
 
     fun unPark(vehicle: Vehicle) {
         if(!vehicles.contains(vehicle)){

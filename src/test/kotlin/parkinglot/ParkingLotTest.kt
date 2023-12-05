@@ -65,6 +65,27 @@ class ParkingLotTest {
 
         invoking { parkingLot.unPark(car) } shouldThrow NotParkedException::class withMessage "vehicle is not parked"
     }
+
+    @Test
+    internal fun `should be true when vehicle is parked`() {
+        val parkingLot = ParkingLot(1)
+        val car = car()
+        parkingLot.park(car)
+
+        val status = parkingLot.isParked(car)
+
+        status shouldBeEqualTo true
+    }
+
+    @Test
+    internal fun `should be false when vehicle is not parked`() {
+        val parkingLot = ParkingLot(1)
+        val car = car()
+
+        val status = parkingLot.isParked(car)
+
+        status shouldBeEqualTo false
+    }
     private fun car(): Vehicle {
         return object : Vehicle {}
     }
