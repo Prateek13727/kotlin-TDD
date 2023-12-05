@@ -11,4 +11,14 @@ class Attendant(val lots: MutableSet<ParkingLot>) {
         throw LotFullException("lot is full")
     }
 
+    fun unPark(vehicle: Vehicle) {
+        lots.forEach {
+            if(it.isParked(vehicle)){
+                it.unPark(vehicle)
+                return
+            }
+        }
+        throw NotParkedException("vehicle not parked")
+    }
+
 }
