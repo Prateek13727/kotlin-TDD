@@ -9,8 +9,9 @@ import org.amshove.kluent.invoking
 import org.amshove.kluent.shouldNotThrow
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito
 import org.mockito.kotlin.mock
+import org.mockito.kotlin.times
+import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import parkinglotv2.domain.entities.Attendant
 import parkinglotv2.domain.entities.ParkingLot
@@ -58,6 +59,6 @@ internal class ParkVehicleTest {
             whenever(parkingLotRepoMock.getAllParkingLots()).thenReturn(lots)
 
             invoking { runBlocking { parkVehicle.invoke(1, 1) } } shouldNotThrow AnyException
-            Mockito.verify(parkingLotRepoMock, Mockito.times(1)).updateParkingLot(updatedParkingLot)
+            verify(parkingLotRepoMock, times(1)).updateParkingLot(updatedParkingLot)
         }
 }
