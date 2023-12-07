@@ -1,7 +1,7 @@
 package parkinglot
 
 class ParkingLot(private val capacity: Int, private val notifiables: MutableSet<Notifiable> = mutableSetOf()) {
-    private val vehicles: ArrayList<Vehicle> = ArrayList()
+    private val slots: ArrayList<Vehicle> = ArrayList()
 
     fun park(vehicle: Vehicle) {
         if (isParked(vehicle)) {
@@ -10,7 +10,7 @@ class ParkingLot(private val capacity: Int, private val notifiables: MutableSet<
         if (isFull()) {
             throw LotFullException("lot is full")
         }
-        vehicles.add(vehicle)
+        slots.add(vehicle)
         notifyLotFull()
         return
     }
@@ -21,28 +21,28 @@ class ParkingLot(private val capacity: Int, private val notifiables: MutableSet<
         }
     }
 
-    private fun isFull() = vehicles.size == capacity
+    private fun isFull() = slots.size == capacity
 
-    fun isParked(vehicle: Any) = vehicles.contains(vehicle)
+    fun isParked(vehicle: Any) = slots.contains(vehicle)
 
     fun unPark(vehicle: Vehicle) {
-        if (vehicles.contains(vehicle).not()) {
+        if (slots.contains(vehicle).not()) {
             throw NotParkedException("vehicle is not parked")
         }
-        vehicles.remove(vehicle)
+        slots.remove(vehicle)
         notifyLotFree()
         return
     }
 
     private fun notifyLotFree() {
-        if (vehicles.size == capacity - 1) {
+        if (slots.size == capacity - 1) {
             notifiables.forEach { it.notifyFree(this) }
         }
     }
 
     fun addNotifiable(notifiable: Notifiable) {
         notifiables.add(notifiable)
-        if(this.capacity == 0){
+        if(this.isFull()){
             notifyLotFull()
         }
     }

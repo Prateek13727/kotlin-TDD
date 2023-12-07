@@ -126,8 +126,8 @@ class ParkingLotTest {
 
     @Test
     fun `should notify multiple observers when lot is full`() {
-        val observer :Notifiable= mock()
-        val anotherObserver:Notifiable = mock()
+        val observer: Notifiable = mock()
+        val anotherObserver: Notifiable = mock()
         val observers = mutableSetOf(observer, anotherObserver)
         val lot = ParkingLot(capacity = 1, notifiables = observers)
         val car = car()
@@ -140,8 +140,8 @@ class ParkingLotTest {
 
     @Test
     fun `should notify multiple observers when full lot has space`() {
-        val observer :Notifiable= mock()
-        val anotherObserver:Notifiable = mock()
+        val observer: Notifiable = mock()
+        val anotherObserver: Notifiable = mock()
         val observers = mutableSetOf(observer, anotherObserver)
         val lot = ParkingLot(capacity = 1, notifiables = observers)
         val car = car()
@@ -152,6 +152,30 @@ class ParkingLotTest {
         verify(observer, times(1)).notifyFree(lot)
         verify(anotherObserver, times(1)).notifyFree(lot)
     }
+
+    @Test
+    internal fun `should notify full for notifiable added in full lot`() {
+        val observer: Notifiable = mock()
+        val lot = ParkingLot(capacity = 1)
+        lot.park(car())
+
+        lot.addNotifiable(observer)
+
+        verify(observer, times(1)).notifyFull(lot)
+
+    }
+
+    @Test
+    internal fun `should not notify full for notifiable added to lot with space`() {
+        val observer: Notifiable = mock()
+        val lot = ParkingLot(capacity = 1)
+
+        lot.addNotifiable(observer)
+
+        verify(observer, times(0)).notifyFull(lot)
+    }
+
+
 
     private fun car(): Vehicle {
         return object : Vehicle {}
