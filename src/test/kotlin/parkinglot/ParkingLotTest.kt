@@ -9,7 +9,7 @@ class ParkingLotTest {
         val parkingLot = ParkingLot(1)
         val car = car()
 
-        invoking { parkingLot.park(car) } shouldNotThrow AnyException
+        invoking { parkingLot.park() } shouldNotThrow AnyException
     }
 
     @Test
@@ -17,7 +17,7 @@ class ParkingLotTest {
         val parkingLot = ParkingLot(0)
         val car = car()
 
-        invoking { parkingLot.park(car) } shouldThrow LotFullException::class withMessage "lot is full"
+        invoking { parkingLot.park() } shouldThrow LotFullException::class withMessage "lot is full"
     }
 
     @Test
@@ -25,18 +25,9 @@ class ParkingLotTest {
         val parkingLot = ParkingLot(1)
         val car = car()
         val anotherCar = car()
-        parkingLot.park(car)
+        parkingLot.park()
 
-        invoking { parkingLot.park(anotherCar) } shouldThrow LotFullException::class withMessage "lot is full"
-    }
-
-    @Test
-    internal fun `should not park car when already parked`() {
-        val parkingLot = ParkingLot(2)
-        val car = car()
-        parkingLot.park(car)
-
-        invoking { parkingLot.park(car) } shouldThrow AlreadyParkedException::class withMessage "vehicle already parked"
+        invoking { parkingLot.park() } shouldThrow LotFullException::class withMessage "lot is full"
     }
 
     private fun car(): Vehicle {

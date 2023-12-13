@@ -1,21 +1,16 @@
 package parkinglot
 
 class ParkingLot(private val capacity: Int) {
-    private val vehicles: ArrayList<Vehicle> = ArrayList()
+    private var allotedSlots: Int = 0
 
-    fun park(vehicle: Vehicle) {
-        if (isParked(vehicle)) {
-            throw AlreadyParkedException("vehicle already parked")
-        }
+    fun park() {
         if (isFull()) {
             throw LotFullException("lot is full")
         }
-        vehicles.add(vehicle)
+        allotedSlots += 1
         return
     }
 
-    private fun isFull() = vehicles.size == capacity
-
-    private fun isParked(vehicle: Any) = vehicles.contains(vehicle)
+    private fun isFull() = allotedSlots == capacity
 
 }
