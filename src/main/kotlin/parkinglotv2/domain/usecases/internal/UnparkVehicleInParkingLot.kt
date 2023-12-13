@@ -1,4 +1,4 @@
-package parkinglotv2.domain.usecases.external
+package parkinglotv2.domain.usecases.internal
 
 import parkinglotv2.domain.entities.ParkingLot
 import parkinglotv2.domain.entities.Slot
@@ -7,7 +7,7 @@ import parkinglotv2.domain.repos.ParkingLotRepo
 import parkinglotv2.domain.repos.VehiclesRepo
 import parkinglotv2.domain.usecases.NotParkedException
 
-class UnparkVehicle(
+class UnparkVehicleInParkingLot(
   private val parkingLotRepo: ParkingLotRepo,
   private val vehiclesRepo: VehiclesRepo
 ) {

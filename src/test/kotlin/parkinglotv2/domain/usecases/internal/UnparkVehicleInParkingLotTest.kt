@@ -1,4 +1,4 @@
-package parkinglotv2.domain.usecases.external
+package parkinglotv2.domain.usecases.internal
 
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.BeforeEach
@@ -13,16 +13,16 @@ import parkinglotv2.domain.entities.Vehicle
 import parkinglotv2.domain.repos.ParkingLotRepo
 import parkinglotv2.domain.repos.VehiclesRepo
 
-internal class UnparkVehicleTest {
+internal class UnparkVehicleInParkingLotTest {
     lateinit var parkingLotRepoMock: ParkingLotRepo
     lateinit var vehiclesRepoMock: VehiclesRepo
-    lateinit var unParkVehicle: UnparkVehicle
+    lateinit var unParkVehicleInParkingLot: UnparkVehicleInParkingLot
 
     @BeforeEach
     fun setup() {
         parkingLotRepoMock = mock()
         vehiclesRepoMock = mock()
-        unParkVehicle = UnparkVehicle(parkingLotRepoMock, vehiclesRepoMock)
+        unParkVehicleInParkingLot = UnparkVehicleInParkingLot(parkingLotRepoMock, vehiclesRepoMock)
     }
 
     @Test
@@ -33,7 +33,7 @@ internal class UnparkVehicleTest {
         whenever(parkingLotRepoMock.getParkingLot(1)).thenReturn(parkingLot)
         whenever(vehiclesRepoMock.getVehicle(1)).thenReturn(vehicle)
 
-        unParkVehicle.invoke(1, 1)
+        unParkVehicleInParkingLot.invoke(1, 1)
 
         verify(parkingLotRepoMock, times(1)).updateParkingLot(updatedParkingLot)
     }
