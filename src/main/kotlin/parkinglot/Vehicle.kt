@@ -1,0 +1,3 @@
+package parkinglot
+
+interface Vehicle
