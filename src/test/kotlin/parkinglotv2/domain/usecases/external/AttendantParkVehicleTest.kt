@@ -23,12 +23,12 @@ import parkinglotv2.domain.repos.ParkingLotRepo
 import parkinglotv2.domain.repos.VehiclesRepo
 import parkinglotv2.domain.usecases.internal.ParkVehicleInParkingLot
 
-internal class ParkVehicleTest {
+internal class AttendantParkVehicleTest {
     private lateinit var attendantRepoMock: AttendantsRepo
     private lateinit var vehicleRepoMock: VehiclesRepo
     private lateinit var parkingLotRepoMock: ParkingLotRepo
     private lateinit var parkVehicleInParkingLot: ParkVehicleInParkingLot
-    private lateinit var parkVehicle: ParkVehicle
+    private lateinit var attendantParkVehicle: AttendantParkVehicle
 
     private val testCoroutineDispatcher = TestCoroutineDispatcher()
     private val testCoroutineScope = TestCoroutineScope(testCoroutineDispatcher)
@@ -39,8 +39,8 @@ internal class ParkVehicleTest {
         vehicleRepoMock = mock()
         parkingLotRepoMock = mock()
         parkVehicleInParkingLot = ParkVehicleInParkingLot(parkingLotRepoMock)
-        parkVehicle =
-            ParkVehicle(attendantRepoMock, vehicleRepoMock, parkingLotRepoMock, parkVehicleInParkingLot)
+        attendantParkVehicle =
+            AttendantParkVehicle(attendantRepoMock, vehicleRepoMock, parkingLotRepoMock, parkVehicleInParkingLot)
     }
 
     @Test
@@ -58,7 +58,7 @@ internal class ParkVehicleTest {
             whenever(vehicleRepoMock.getVehicle(1)).thenReturn(Vehicle(1))
             whenever(parkingLotRepoMock.getAllParkingLots()).thenReturn(lots)
 
-            invoking { runBlocking { parkVehicle.invoke(1, 1) } } shouldNotThrow AnyException
+            invoking { runBlocking { attendantParkVehicle.invoke(1, 1) } } shouldNotThrow AnyException
             verify(parkingLotRepoMock, times(1)).updateParkingLot(updatedParkingLot)
         }
 }

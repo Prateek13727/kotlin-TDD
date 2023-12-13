@@ -13,7 +13,7 @@ import parkinglotv2.domain.entities.Vehicle
 import parkinglotv2.domain.entities.parkingrules.FirstAvailabilityRule
 import parkinglotv2.domain.repos.ParkingLotRepo
 
-internal class ParkVehicleInParkingLotTest {
+internal class AttendantParkVehicleInParkingLotTest {
     private lateinit var parkingLotRepoMock: ParkingLotRepo
     private lateinit var parkVehicleInParkingLot: ParkVehicleInParkingLot
 

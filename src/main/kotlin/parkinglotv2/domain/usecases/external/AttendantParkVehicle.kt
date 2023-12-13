@@ -7,7 +7,7 @@ import parkinglotv2.domain.repos.VehiclesRepo
 import parkinglotv2.domain.usecases.LotFullException
 import parkinglotv2.domain.usecases.internal.ParkVehicleInParkingLot
 
-class ParkVehicle(
+class AttendantParkVehicle(
   private val attendantsRepo: AttendantsRepo,
   private val vehiclesRepo: VehiclesRepo,
   private val parkingLotRepo: ParkingLotRepo,
