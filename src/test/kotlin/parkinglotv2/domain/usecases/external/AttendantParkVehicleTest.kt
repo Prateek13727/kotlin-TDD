@@ -17,7 +17,6 @@ import parkinglotv2.domain.entities.Attendant
 import parkinglotv2.domain.entities.ParkingLot
 import parkinglotv2.domain.entities.Slot
 import parkinglotv2.domain.entities.Vehicle
-import parkinglotv2.domain.entities.parkingrules.FirstAvailabilityRule
 import parkinglotv2.domain.repos.AttendantsRepo
 import parkinglotv2.domain.repos.ParkingLotRepo
 import parkinglotv2.domain.repos.VehiclesRepo
@@ -40,21 +39,20 @@ internal class AttendantParkVehicleTest {
         parkingLotRepoMock = mock()
         parkVehicleInParkingLot = ParkVehicleInParkingLot(parkingLotRepoMock)
         attendantParkVehicle =
-            AttendantParkVehicle(attendantRepoMock, vehicleRepoMock, parkingLotRepoMock, parkVehicleInParkingLot)
+            AttendantParkVehicle(attendantRepoMock, vehicleRepoMock, parkVehicleInParkingLot)
     }
 
     @Test
     internal fun ` park car in the first parking lot`() =
         testCoroutineScope.runBlockingTest {
-            val firstAvailabilityRule = FirstAvailabilityRule()
             val lots = listOf(
-                ParkingLot(1, 1, emptySet(), listOf(Slot(1, null))),
-                ParkingLot(1, 2, emptySet(), listOf(Slot(1, null), Slot(2, null)))
+                ParkingLot(1, 1, listOf(Slot(1, null))),
+                ParkingLot(1, 2, listOf(Slot(1, null), Slot(2, null)))
             )
             val vehicle = Vehicle(1)
             val updatedParkingLot =
-                ParkingLot(1, 1, emptySet(), listOf(Slot(1, vehicle)))
-            whenever(attendantRepoMock.get(1)).thenReturn(Attendant(1, firstAvailabilityRule))
+                ParkingLot(1, 1, listOf(Slot(1, vehicle)))
+            whenever(attendantRepoMock.get(1)).thenReturn(Attendant(1, lots))
             whenever(vehicleRepoMock.getVehicle(1)).thenReturn(Vehicle(1))
             whenever(parkingLotRepoMock.getAllParkingLots()).thenReturn(lots)
 

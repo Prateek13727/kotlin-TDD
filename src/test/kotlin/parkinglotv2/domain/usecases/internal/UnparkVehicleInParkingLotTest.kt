@@ -28,8 +28,8 @@ internal class UnparkVehicleInParkingLotTest {
     @Test
     internal fun `un park car from the lot`() = runBlockingTest {
         val vehicle = Vehicle(1)
-        val parkingLot = ParkingLot(1, 1, emptySet(), listOf(Slot(1, vehicle)))
-        val updatedParkingLot = ParkingLot(1, 1, emptySet(), listOf(Slot(1, null)))
+        val parkingLot = ParkingLot(1, 1, listOf(Slot(1, vehicle)))
+        val updatedParkingLot = ParkingLot(1, 1, listOf(Slot(1, null)))
         whenever(parkingLotRepoMock.getParkingLot(1)).thenReturn(parkingLot)
         whenever(vehiclesRepoMock.getVehicle(1)).thenReturn(vehicle)
 
