@@ -43,7 +43,7 @@ internal class AttendantParkVehicleTest {
     }
 
     @Test
-    internal fun ` park car in the first parking lot`() =
+    internal fun `park car in the first parking lot`() =
         testCoroutineScope.runBlockingTest {
             val lots = listOf(
                 ParkingLot(1, 1, listOf(Slot(1, null))),
