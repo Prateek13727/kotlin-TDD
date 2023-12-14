@@ -11,11 +11,11 @@ class Attendant(val lots: MutableSet<ParkingLot>) : Notifiable {
     }
 
     fun park(vehicle: Vehicle) {
-        availableLots.forEach {
-            it.park(vehicle)
-            return
+        if (availableLots.size == 0) {
+            throw LotFullException("lot is full")
         }
-        throw LotFullException("lot is full")
+        availableLots.first().park(vehicle)
+        return
     }
 
     fun unPark(vehicle: Vehicle) {
