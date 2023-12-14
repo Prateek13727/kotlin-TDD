@@ -11,7 +11,7 @@ class AttendantTest {
     fun `attendant should be able to park the car if space is available` () {
 //        Arrange
         val parkingLot : ParkingLot = mock()
-        val attendant = Attendant(parkingLot)
+        val attendant = Attendant(parkingLot = parkingLot)
         val car : Vehicle = mock()
 
 //        Action
@@ -20,18 +20,20 @@ class AttendantTest {
         verify(parkingLot).park(car)
     }
 
-    @Test
-    fun `attendant should be able to unpark the car if car is already parked` () {
-//        Arrange
-        val parkingLot : ParkingLot = mock()
-        val attendant = Attendant(parkingLot)
-        val car : Vehicle = mock()
 
-//        Action
-        attendant.park(car)
-//        Assert
-        verify(parkingLot).park(car)
-    }
+//    @Test
+//    fun `attendant should be able to park the car` () {
+////        Arrange
+//        val parkingLot1 : ParkingLot = ParkingLot(capacity = 1)
+//        val parkingLot2 : ParkingLot = ParkingLot(capacity = 1)
+//        val attendant = Attendant(parkingLotsInput = listOf(parkingLot1, parkingLot2))
+//        val car : Vehicle = mock()
+//
+////        Action
+//        attendant.park(car)
+////        Assert
+//        verify(parkingLot).park(car)
+//    }
 
 
 }
