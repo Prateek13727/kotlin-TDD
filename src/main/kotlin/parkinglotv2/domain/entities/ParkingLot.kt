@@ -10,6 +10,6 @@ data class ParkingLot(
     get() = capacity - filledSlotsCnt
 
   private val filledSlotsCnt
-    get() = slots.count { it.vehicle == null }
+    get() = slots.count { it.vehicle != null }
 
 }
